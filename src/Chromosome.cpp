@@ -1,0 +1,69 @@
+#include "Chromosome.h"
+#include <cstdint>
+#include <iostream>
+
+Chromosome::Chromosome() {
+
+}
+
+Chromosome::~Chromosome() {
+}
+
+/*
+ * Write a bit of gene to the chromosome.
+ */
+void Chromosome::setGene(bool gene) {
+  this->genes.push(gene);
+}
+
+/*
+ * Get a gene data, it'll return true when there still have genes.
+ * If there are no enough of gene, gave 0.
+ * Return status of stock, 0 means chromosome empty.
+ */
+bool Chromosome::getGene(bool & gene) {
+  if (!this->genes.size()) {
+    gene = 0;
+    return 0;
+  }
+  gene = this->genes.front();
+  this->genes.pop();
+  return 1;
+}
+
+/*
+ * Clone the chromosome, it'll copy whole genes.
+ */
+Chromosome *Chromosome::getClone() {
+  Chromosome *cloneChromosome = new Chromosome();
+  uint32_t length = this->genes.size();
+
+  for (uint32_t i = 0; i < length; i++) {
+    bool gene = this->genes.front();
+    this->genes.push(gene);
+    this->genes.pop();
+    cloneChromosome->setGene(gene);
+  }
+
+  return cloneChromosome;
+}
+
+/*
+ * Create new empty chromosome.
+ */
+Chromosome *Chromosome::getEmpty() {
+  return new Chromosome;
+}
+
+string Chromosome::printBinary() {
+  string str = "";
+  uint32_t length = this->genes.size();
+
+  for (uint32_t i = 0; i < length; i++) {
+    bool gene = this->genes.front();
+    str += gene ? "1" : "0";
+    this->genes.push(gene);
+    this->genes.pop();
+  }
+  return str;
+}
