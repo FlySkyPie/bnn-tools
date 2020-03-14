@@ -13,6 +13,7 @@ public:
   Chromosome();
   ~Chromosome();
   
+  void addGenes(Chromosome * genes);
   void addGenes(uint8_t genes);
   void setGene(bool gene);
   bool getGene(bool & gene);

@@ -10,6 +10,19 @@ Chromosome::~Chromosome() {
 }
 
 /**
+ * Add genes from a Chromosome to the Chromosome.
+ * 
+ * @param genes
+ */
+void Chromosome::addGenes(Chromosome * originalChromosome) {
+    Chromosome* chromosome = originalChromosome->getClone();
+    bool gene;
+    while (chromosome->getGene(gene)) {
+        this->genes.push(gene);
+    }
+}
+
+/**
  * Add a byte of genes to chromosome.
  * 
  * @param genes
