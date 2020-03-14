@@ -22,7 +22,6 @@ include_directories(src/Util)
 # mutator stuff
 set(MUTATOR_DIR ${CMAKE_SOURCE_DIR}/src/Mutator)
 set(MUTATOR_SOURCES
-    ${MUTATOR_DIR}/BernoulliJudge.cpp
     ${MUTATOR_DIR}/HeaderDecoder.cpp
     ${MUTATOR_DIR}/LinkerMutator.cpp
     ${MUTATOR_DIR}/Mutator.cpp
@@ -32,12 +31,13 @@ include_directories(src/Mutator)
 add_executable(mutator ${MUTATOR_DIR}/main.cpp ${UTIL_SOURCES} ${MUTATOR_SOURCES} )
 
 # random generator stuff
+set(GEMERATOR_DIR ${CMAKE_SOURCE_DIR}/src/RandomGenerator)
 file(GLOB RANDOM_GENERATOR_SOURCES
-    src/RandomGenerator/*.cpp
+    ${GEMERATOR_DIR}/Generator.cpp
 )
 include_directories(src/RandomGenerator)
 
-add_executable(generator ${RANDOM_GENERATOR_SOURCES} ${UTIL_SOURCES})
+add_executable(generator ${GEMERATOR_DIR}/main.cpp ${RANDOM_GENERATOR_SOURCES} ${UTIL_SOURCES})
 target_link_libraries( generator LINK_PUBLIC ${Boost_LIBRARIES} )
 
 # GTest stuff

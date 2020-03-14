@@ -26,3 +26,7 @@ add_test(NAME test_bernoulli_jude COMMAND ${CMAKE_SOURCE_DIR}/build/test/test_be
 add_executable( test_chromosome testChromosome.cpp  ${UTIL_SOURCES})
 target_link_libraries( test_chromosome ${GTEST_BOTH_LIBRARIES})
 add_test(NAME test_chromosome COMMAND ${CMAKE_SOURCE_DIR}/build/test/test_chromosome)
+
+add_executable( test_generator testGenerator.cpp  ${UTIL_SOURCES} ${RANDOM_GENERATOR_SOURCES})
+target_link_libraries( test_generator ${GTEST_BOTH_LIBRARIES})
+add_test(NAME test_generator COMMAND ${CMAKE_SOURCE_DIR}/build/test/test_generator)
