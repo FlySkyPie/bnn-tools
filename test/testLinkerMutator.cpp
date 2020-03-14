@@ -49,8 +49,3 @@ TEST(LinkerMutator, testGetNextGeneration_0_5_mutation_rate) {
 
   ASSERT_STRNE(chromosome.printBinary().c_str(), next->printBinary().c_str());
 }
-
-int main(int argc, char **argv) {
-  testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}

@@ -22,8 +22,3 @@ TEST(StringDecoder, testDecode_ooo) {
   
   ASSERT_STREQ("011011110110111101101111", chromosome->printBinary().c_str());
 }
-
-int main(int argc, char **argv) {
-  testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}

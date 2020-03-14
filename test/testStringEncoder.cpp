@@ -33,8 +33,3 @@ TEST(StringDecoder, testDecode_01001000_miss_3_bit) {
   string str = encoder.encode(&chromosome);
   ASSERT_STREQ("H", str.c_str());
 }
-
-int main(int argc, char **argv) {
-  testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}
