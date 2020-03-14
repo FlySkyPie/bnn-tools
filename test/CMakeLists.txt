@@ -22,3 +22,7 @@ add_test(NAME test_string_encoder COMMAND ${CMAKE_SOURCE_DIR}/build/test/test_st
 add_executable( test_bernoulli_jude testBernoulliJudge.cpp ${MUTATOR_SOURCES} ${UTIL_SOURCES})
 target_link_libraries( test_bernoulli_jude ${GTEST_BOTH_LIBRARIES})
 add_test(NAME test_bernoulli_jude COMMAND ${CMAKE_SOURCE_DIR}/build/test/test_bernoulli_jude)
+
+add_executable( test_chromosome testChromosome.cpp  ${UTIL_SOURCES})
+target_link_libraries( test_chromosome ${GTEST_BOTH_LIBRARIES})
+add_test(NAME test_chromosome COMMAND ${CMAKE_SOURCE_DIR}/build/test/test_chromosome)
