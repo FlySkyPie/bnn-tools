@@ -1,7 +1,8 @@
 cmake_minimum_required (VERSION 3.1)
 
 project (Chromosome_Mutator)
-
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #set(THREADS_PREFER_PTHREAD_FLAG ON)
 #find_package(Threads REQUIRED)
 
@@ -9,9 +10,11 @@ find_package( Boost 1.40 COMPONENTS program_options REQUIRED )
 include_directories( ${Boost_INCLUDE_DIR} )
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
+find_package(nlohmann_json 3.2.0 REQUIRED)
 
 set(CMAKE_BUILD_TYPE Debug)
-#set(PROJECT_BINARY_DIR ${CMAKE_SOURCE_DIR}/build)
+set(CMAKE_C_COMPILER clang)
+set(CMAKE_CXX_COMPILER clang++)
 
 # utility stuff
 file(GLOB UTIL_SOURCES
@@ -39,6 +42,17 @@ include_directories(src/RandomGenerator)
 
 add_executable(generator ${GEMERATOR_DIR}/main.cpp ${RANDOM_GENERATOR_SOURCES} ${UTIL_SOURCES})
 target_link_libraries( generator LINK_PUBLIC ${Boost_LIBRARIES} )
+
+# Decoder stuff
+set(DECODER_DIR ${CMAKE_SOURCE_DIR}/src/Decoder)
+file(GLOB DECODER_SOURCES
+    ${DECODER_DIR}/Decoder.cpp
+)
+include_directories(src/Decoder)
+
+add_executable( decoder ${DECODER_DIR}/main.cpp ${DECODER_SOURCES} ${UTIL_SOURCES})
+target_link_libraries( decoder LINK_PUBLIC ${Boost_LIBRARIES} )
+
 
 # GTest stuff
 enable_testing()

@@ -30,3 +30,7 @@ add_test(NAME test_chromosome COMMAND ${CMAKE_SOURCE_DIR}/build/test/test_chromo
 add_executable( test_generator testGenerator.cpp  ${UTIL_SOURCES} ${RANDOM_GENERATOR_SOURCES})
 target_link_libraries( test_generator ${GTEST_BOTH_LIBRARIES})
 add_test(NAME test_generator COMMAND ${CMAKE_SOURCE_DIR}/build/test/test_generator)
+
+add_executable( test_decoder testDecoder.cpp  ${UTIL_SOURCES} ${DECODER_SOURCES})
+target_link_libraries( test_decoder ${GTEST_BOTH_LIBRARIES} nlohmann_json::nlohmann_json)
+add_test(NAME test_decoder COMMAND ${CMAKE_SOURCE_DIR}/build/test/test_decoder)
