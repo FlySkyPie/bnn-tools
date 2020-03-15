@@ -16,7 +16,7 @@ int main(int argc, char** argv) {
     po::options_description desc("Allowed options");
     desc.add_options()
             ("help", "produce help message")
-            ("address", po::value<uint8_t>(), "length of addressing space")
+            ("address", po::value<unsigned>(), "length of addressing space")
             ("gene", po::value<uint32_t>(), "how many genes will generated")
             ;
 
@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
     }
 
     try {
-        Generator generator(vm["address"].as< uint8_t>(), vm["gene"].as<uint32_t>());
+        Generator generator(vm["address"].as< unsigned>(), vm["gene"].as<uint32_t>());
         StringEncoder encoder;
         string result = encoder.encode(generator.getChromosome());
         cout << result;
