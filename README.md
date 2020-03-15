@@ -1,26 +1,39 @@
-Chromosome Mutator
+BNN Tools
 ===
 
-This is mutation program of Genetic Algorithm  for my machine learning project.
+This is a tool package of Genetic Algorithm  for my machine learning project which are using BNN (Boolean Neural Network).
 
 Definition
 ---
 
-[8 bit] [n bit] [1+2n bit] [1+2n bit] [...]
+The binary chromosome defined as shown below:
 
-8 bit for mutation rate;
+![](./img/spec-binary-chromosome.png)
 
-b bit for length of node address;
-
-1+2n bit for linker information, 
-
-[1 bit for weight] [n bit for node 1 address] [n bit fornode 2 address]
+The length of node id (address), the variable n, are defined by addressing space, which the first byte in the file/string.
 
 
 
 Usage
 ---
+### Random Generator
+To create randomly chromosome.
+Allowed options:
+  --help                produce help message
+  --address arg         length of addressing space
+  --gene arg            how many genes will generated
 
+```shell
+./generator --address 12 --gene 100 > test_gene
+```
+
+### Decoder
+To parse gene and convert to Json.
+```shell
+./decoder --input-file test_gene > test_gene.json
+```
+
+### Mutator (temporary not working)
 Use pipe to transmit gene and receive mutated gene,
 
 ```shell
