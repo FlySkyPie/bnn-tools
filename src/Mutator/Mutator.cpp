@@ -1,91 +1,115 @@
-#include "Mutator.h"
-#include "StringDecoder.h"
-#include "HeaderDecoder.h"
+#include <stdexcept>
 
-#include "LinkerMutator.h"
+#include "Mutator.h"
+#include "LinkGene.h"
 
 /*
  * Decode string, and storage gene information in it.
  */
-Mutator::Mutator(string string) {
-  StringDecoder decoder;
-  Chromosome * chromosome = decoder.decode(string);
-  HeaderDecoder header(chromosome);
+Mutator::Mutator() {
+    this->inverseJudge = nullptr;
+    this->varyJudge = nullptr;
+    this->subject = nullptr;
+    this->addressLength = 0;
+}
 
-  this->mutationRate = header.getMutationRate();
-  this->addressLength = header.getLengthOfNodeAddress();
-  this->subject = chromosome;
+Mutator::~Mutator() {
+    delete this->subject ;
+}
+
+Mutator* Mutator::setInverseJudge(BernoulliJudge* judge) {
+    this->inverseJudge = judge;
+    return this;
+}
+
+Mutator* Mutator::setVaryJudge(BernoulliJudge* judge) {
+    this->varyJudge = judge;
+    return this;
+}
+
+Mutator* Mutator::setChromosome(Chromosome* chromosome) {
+    if (this->subject) {
+        delete this->subject;
+    }
+
+    this->subject = chromosome->getClone();
+    return this;
+}
+
+Mutator* Mutator::setAddressLength(uint64_t length) {
+    this->addressLength = length;
+    return this;
 }
 
 /*
  * Generate mutated child chromosome.
  */
 Chromosome* Mutator::getChild() {
-  BernoulliJudge judge(this->mutationRate);
-
-  Chromosome * mutatedLength = this->getMutatedLength(
-          this->addressLength,
-          &judge);
-  LinkerMutator mutator;
-  Chromosome * childLinker = mutator.getNextGeneration(
-          this->addressLength,
-          &judge,
-          this->subject->getClone());
-  Chromosome * mutationRateGene = this->getMutationRate(judge.getSuccessRate());
-
-  this->transcribe(mutatedLength, mutationRateGene);
-  this->transcribe(childLinker, mutationRateGene);
-  return mutationRateGene;
-}
-
-/*
- * Get mutated address length, and transform to chromosome.
- */
-Chromosome* Mutator::getMutatedLength(int length, BernoulliJudge *judge) {
-  Chromosome* chromosome = new Chromosome();
-
-  bool increase, decrease;
-  increase = judge->getRandom();
-  decrease = judge->getRandom();
-
-  if (increase && !decrease) {
-    length += 1;
-  } else if (!increase && decrease) {
-    length -= 1;
-  }
-
-  for (int i = 1; i < length; i++) {
-    chromosome->setGene(1);
-  }
-  chromosome->setGene(0);
-  return chromosome;
-
-}
-
-/*
- * Translate mutation rate to chromosome.
- */
-Chromosome* Mutator::getMutationRate(float mutationRate) {
-  Chromosome* chromosome = new Chromosome();
-
-  for (int i = 0; i < 8; i++) {
-    mutationRate *= 2;
-    if (mutationRate >= 1) {
-      mutationRate -= 1;
-      chromosome->setGene(1);
-    } else {
-      chromosome->setGene(0);
+    if (!this->isReady()) {
+        throw std::runtime_error(
+                "Something missing, "
+                "make sure you had setting all necessary stuff for mutator.");
     }
-  }
-  return chromosome;
+
+    this->isVary = !(this->inverseJudge->getRandom());
+    this->isExtended = this->varyJudge->getRandom();
+
+    Chromosome * source = this->subject->getClone();
+    Chromosome * child = new Chromosome();
+    while (1) {
+        LinkGene processor(this->addressLength, this->inverseJudge);
+        if (!processor.loadGenes(source)) {
+            break;
+        }
+
+        Chromosome * segment;
+        bool isSegmentMutated = !(this->inverseJudge->getRandom());
+        if (!isSegmentMutated) {
+            segment = this->getSegment(&processor);
+            child->addGenes(segment);
+            delete segment;
+            continue;
+        }
+
+        bool isDuplication = this->varyJudge->getRandom();
+        if (isDuplication) {
+            segment = this->getSegment(&processor);
+            segment->addGenes(segment);
+            child->addGenes(segment);
+            delete segment;
+        }
+    }
+
+    return child;
 }
 
-/*
- * Transcribe genes from source to target.
+/**
+ * Checking the mutator is ready to work.
+ * 
+ * @return bool
  */
-void Mutator::transcribe(Chromosome * source, Chromosome * target) {
-  bool b;
-  while (source->getGene(b)) {
-    target->setGene(b);
-  }
+bool Mutator::isReady() {
+    if (!this->inverseJudge) {
+        return false;
+    }
+    if (!this->varyJudge) {
+        return false;
+    }
+    if (!this->subject) {
+        return false;
+    }
+    if (this->addressLength == 0) {
+        return false;
+    }
+    return true;
+}
+
+Chromosome * Mutator::getSegment(LinkGene* linkGene) {
+    if (this->isVary) {
+        return (this->isExtended) ?
+                linkGene->getMutatedExtended() :
+                linkGene->getMutatedShrinked();
+    } else {
+        return linkGene->getMutatedNormal();
+    }
 }
