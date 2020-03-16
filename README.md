@@ -33,36 +33,13 @@ To parse gene and convert to Json.
 ./decoder --input-file test_gene > test_gene.json
 ```
 
-### Mutator (temporary not working)
-Use pipe to transmit gene and receive mutated gene,
+### Mutator
+Creating chromosome of next generaion by mutated source from file.
+Allowed options:
+  --help                produce help message
+  --input-file arg      the chromosome file
+  --mutated-rate arg    probability of mutate happened.
 
 ```shell
-cat origin_gene >> mutator >> mutated_gene
+./mutator --input-file test_gene --mutated-rate 0.1 > test_gene_mutated
 ```
-
-and of course can been called by another language. The php example: 
-
-```php
-$descriptorspec = array( 
-    0 => array("pipe", "r"),
-    1 => array("pipe", "w"), 
-);
-
-$geneString = chr(0x40) . chr(0x9f) . chr(0x50);
-$command = "./mutator " . strlen($geneString);
-
-echo "original gene: " . stringToGeneString($geneString) . "\n";
-
-$process = proc_open($command, $descriptorspec, $pipes);
-
-if (is_resource($process)) {
-  fwrite($pipes[0], $geneString);
-  fclose($pipes[0]);
-
-  $childString = stream_get_contents($pipes[1]);
-  fclose($pipes[1]);
-
-  $return_value = proc_close($process);
-}
-```
-
