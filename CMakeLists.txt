@@ -28,6 +28,7 @@ set(MUTATOR_SOURCES
     ${MUTATOR_DIR}/HeaderDecoder.cpp
     ${MUTATOR_DIR}/LinkerMutator.cpp
     ${MUTATOR_DIR}/Mutator.cpp
+    ${MUTATOR_DIR}/LinkGene.cpp
 )
 include_directories(src/Mutator)
 

@@ -34,3 +34,7 @@ add_test(NAME test_generator COMMAND ${CMAKE_SOURCE_DIR}/build/test/test_generat
 add_executable( test_decoder testDecoder.cpp  ${UTIL_SOURCES} ${DECODER_SOURCES})
 target_link_libraries( test_decoder ${GTEST_BOTH_LIBRARIES} nlohmann_json::nlohmann_json)
 add_test(NAME test_decoder COMMAND ${CMAKE_SOURCE_DIR}/build/test/test_decoder)
+
+add_executable( test_link_gene testLinkGene.cpp ${MUTATOR_SOURCES} ${UTIL_SOURCES})
+target_link_libraries( test_link_gene  ${GTEST_BOTH_LIBRARIES})
+add_test(NAME test_link_gene  COMMAND ${CMAKE_SOURCE_DIR}/build/test/test_link_gene )
