@@ -15,8 +15,8 @@ The length of node id (address), the variable n, are defined by addressing space
 Compile
 ---
 ```shell
-git clone https://github.com/FlySkyPie/chromosome-mutator.git
-cd chromosome-mutator
+git clone https://github.com/FlySkyPie/bnn-tools.git
+cd bnn-tools
 mkdir build
 cd build
 cmake ..
