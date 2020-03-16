@@ -33,6 +33,7 @@ set(MUTATOR_SOURCES
 include_directories(src/Mutator)
 
 add_executable(mutator ${MUTATOR_DIR}/main.cpp ${UTIL_SOURCES} ${MUTATOR_SOURCES} )
+target_link_libraries( mutator LINK_PUBLIC ${Boost_LIBRARIES} )
 
 # random generator stuff
 set(GEMERATOR_DIR ${CMAKE_SOURCE_DIR}/src/RandomGenerator)
