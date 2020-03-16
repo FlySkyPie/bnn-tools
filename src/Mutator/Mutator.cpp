@@ -14,7 +14,7 @@ Mutator::Mutator() {
 }
 
 Mutator::~Mutator() {
-    delete this->subject ;
+    delete this->subject;
 }
 
 Mutator* Mutator::setInverseJudge(BernoulliJudge* judge) {
@@ -36,7 +36,7 @@ Mutator* Mutator::setChromosome(Chromosome* chromosome) {
     return this;
 }
 
-Mutator* Mutator::setAddressLength(uint64_t length) {
+Mutator* Mutator::setAddressLength(uint8_t length) {
     this->addressLength = length;
     return this;
 }
@@ -51,11 +51,19 @@ Chromosome* Mutator::getChild() {
                 "make sure you had setting all necessary stuff for mutator.");
     }
 
-    this->isVary = !(this->inverseJudge->getRandom());
-    this->isExtended = this->varyJudge->getRandom();
-
     Chromosome * source = this->subject->getClone();
     Chromosome * child = new Chromosome();
+    uint8_t newLength = this->addressLength;
+
+    this->isVary = !(this->inverseJudge->getRandom());
+    this->isExtended = this->varyJudge->getRandom();
+    
+     if (this->isVary) {
+         newLength = (this->isExtended)? newLength +1 : newLength-1;
+     }
+
+    child->addGenes(newLength);
+
     while (1) {
         LinkGene processor(this->addressLength, this->inverseJudge);
         if (!processor.loadGenes(source)) {

@@ -18,7 +18,7 @@ public:
     Mutator* setInverseJudge(BernoulliJudge* judge);
     Mutator* setVaryJudge(BernoulliJudge* judge);
     Mutator* setChromosome(Chromosome* chromosome);
-    Mutator* setAddressLength(uint64_t length);
+    Mutator* setAddressLength(uint8_t length);
 
     Chromosome* getChild();
 
