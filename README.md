@@ -12,7 +12,16 @@ The binary chromosome defined as shown below:
 
 The length of node id (address), the variable n, are defined by addressing space, which the first byte in the file/string.
 
-
+Compile
+---
+```shell
+git clone https://github.com/FlySkyPie/chromosome-mutator.git
+cd chromosome-mutator
+mkdir build
+cd build
+cmake ..
+make
+```
 
 Usage
 ---
