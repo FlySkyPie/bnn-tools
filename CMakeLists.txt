@@ -55,6 +55,13 @@ include_directories(src/Decoder)
 add_executable( decoder ${DECODER_DIR}/main.cpp ${DECODER_SOURCES} ${UTIL_SOURCES})
 target_link_libraries( decoder LINK_PUBLIC ${Boost_LIBRARIES} )
 
+# Network stuff
+set(NETWORK_DIR ${CMAKE_SOURCE_DIR}/src/Network)
+file(GLOB NETWORK_SOURCES
+    ${NETWORK_DIR}/Neuron.cpp
+)
+include_directories(src/Network)
+
 
 # GTest stuff
 enable_testing()

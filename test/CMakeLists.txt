@@ -38,3 +38,7 @@ add_test(NAME test_decoder COMMAND ${CMAKE_SOURCE_DIR}/build/test/test_decoder)
 add_executable( test_link_gene testLinkGene.cpp ${MUTATOR_SOURCES} ${UTIL_SOURCES})
 target_link_libraries( test_link_gene  ${GTEST_BOTH_LIBRARIES})
 add_test(NAME test_link_gene  COMMAND ${CMAKE_SOURCE_DIR}/build/test/test_link_gene )
+
+add_executable( test_neuron testNeuron.cpp ${NETWORK_SOURCES})
+target_link_libraries( test_neuron  ${GTEST_BOTH_LIBRARIES})
+add_test(NAME test_neuron  COMMAND ${CMAKE_SOURCE_DIR}/build/test/test_neuron )
