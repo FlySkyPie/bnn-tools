@@ -59,6 +59,7 @@ target_link_libraries( decoder LINK_PUBLIC ${Boost_LIBRARIES} )
 set(NETWORK_DIR ${CMAKE_SOURCE_DIR}/src/Network)
 file(GLOB NETWORK_SOURCES
     ${NETWORK_DIR}/Neuron.cpp
+    ${NETWORK_DIR}/NeuralChamber.cpp
 )
 include_directories(src/Network)
 

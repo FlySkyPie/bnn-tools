@@ -42,3 +42,7 @@ add_test(NAME test_link_gene  COMMAND ${CMAKE_SOURCE_DIR}/build/test/test_link_g
 add_executable( test_neuron testNeuron.cpp ${NETWORK_SOURCES})
 target_link_libraries( test_neuron  ${GTEST_BOTH_LIBRARIES})
 add_test(NAME test_neuron  COMMAND ${CMAKE_SOURCE_DIR}/build/test/test_neuron )
+
+add_executable( test_neural_chamber testNeuralChamber.cpp ${NETWORK_SOURCES})
+target_link_libraries( test_neural_chamber  ${GTEST_BOTH_LIBRARIES})
+add_test(NAME test_neural_chamber  COMMAND ${CMAKE_SOURCE_DIR}/build/test/test_neural_chamber )
