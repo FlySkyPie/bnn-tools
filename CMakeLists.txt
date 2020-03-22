@@ -14,6 +14,7 @@ find_package(GMock REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 find_package(nlohmann_json 3.2.0 REQUIRED)
 find_package(Threads REQUIRED)
+find_package( OpenCV REQUIRED )
 
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_C_COMPILER clang)
@@ -64,6 +65,7 @@ file(GLOB NETWORK_SOURCES
     ${NETWORK_DIR}/Neuron.cpp
     ${NETWORK_DIR}/NeuralChamber.cpp
     ${NETWORK_DIR}/NeuralLinkContainer.cpp
+    ${NETWORK_DIR}/VisualInputer.cpp
 )
 include_directories(src/Network)
 
