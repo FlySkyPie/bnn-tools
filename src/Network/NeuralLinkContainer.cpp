@@ -6,9 +6,25 @@ NeuralLinkContainer::NeuralLinkContainer() {
 NeuralLinkContainer::~NeuralLinkContainer() {
 }
 
+/**
+ * Record nodes and links by linking given,
+ * should ignore repeated nodes and links.
+ * 
+ * @param id1
+ * @param id2
+ * @param weight
+ */
 void NeuralLinkContainer::addLink(uint32_t id1, uint32_t id2, bool weight) {
     this->nodeSet.insert(id1);
     this->nodeSet.insert(id2);
+
+    auto referenceIterator = this->linkMap.equal_range(id1);
+    for (auto it = referenceIterator.first; it != referenceIterator.second; ++it){
+        auto pair = it->second;
+        if(pair.first == id2 && pair.second == weight){
+            return;
+        }
+    }
     this->linkMap.insert(std::make_pair(id1, std::make_pair(id2, weight)));
 }
 

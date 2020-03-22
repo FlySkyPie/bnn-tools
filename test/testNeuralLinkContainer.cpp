@@ -33,3 +33,15 @@ TEST(NeuralLinkContainer, testConstruct_Ignore_Repeated_Link) {
     container.addLink(1, 10, true);
     container.construct(&mock);
 }
+
+TEST(NeuralLinkContainer, testConstruct_Ignore_Repeated_Node) {
+    NeuralLinkContainer container;
+    MockNeuralConstruct mock;
+    
+    EXPECT_CALL(mock, addNode(_)).Times(3);
+    EXPECT_CALL(mock, addLink(_, _, _)).Times(2);
+
+    container.addLink(1, 2, true);
+    container.addLink(2, 3, true);
+    container.construct(&mock);
+}
