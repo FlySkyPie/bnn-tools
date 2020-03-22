@@ -46,3 +46,7 @@ add_test(NAME test_neuron  COMMAND ${CMAKE_SOURCE_DIR}/build/test/test_neuron )
 add_executable( test_neural_chamber testNeuralChamber.cpp ${NETWORK_SOURCES})
 target_link_libraries( test_neural_chamber  ${GTEST_BOTH_LIBRARIES})
 add_test(NAME test_neural_chamber  COMMAND ${CMAKE_SOURCE_DIR}/build/test/test_neural_chamber )
+
+add_executable( test_neural_link_container testNeuralLinkContainer.cpp ${NETWORK_SOURCES})
+target_link_libraries( test_neural_link_container  ${GTEST_BOTH_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${GMOCK_BOTH_LIBRARIES})
+add_test(NAME test_neural_link_container  COMMAND ${CMAKE_SOURCE_DIR}/build/test/test_neural_link_container )
