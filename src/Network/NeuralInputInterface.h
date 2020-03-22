@@ -1,5 +1,5 @@
 #pragma once
-#include <set>
+#include <unordered_set>
 #include <cstdint>
 
 class NeuralInputInterface {
@@ -14,7 +14,7 @@ public:
      * @param range
      * @return 
      */
-    virtual std::set<uint32_t> getInputNodeIds(uint32_t range) = 0;
+    virtual std::unordered_set<uint32_t> getInputNodeIds(uint32_t range) = 0;
     
     /**
      * Reset all neurons in neural network,

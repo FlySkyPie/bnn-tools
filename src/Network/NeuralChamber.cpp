@@ -15,7 +15,7 @@ bool NeuralChamber::getValue(uint32_t id) {
     return outputId;
 }
 
-std::set<uint32_t> NeuralChamber::getInputNodeIds(uint32_t range) {
+std::unordered_set<uint32_t> NeuralChamber::getInputNodeIds(uint32_t range) {
     std::set<uint32_t> newSet;
     for (auto it = this->neuronIds.begin(); it != this->neuronIds.end(); ++it) {
         if ((*it) > range) {

@@ -2,7 +2,7 @@
 
 #include <cstdint>
 #include <unordered_map>
-#include <set>
+#include <unordered_set>
 
 #include "Neuron.h"
 #include "NeuralConstructInterface.h"
@@ -18,14 +18,14 @@ public:
     void addNode(uint32_t id);
     void addLink(uint32_t id1, uint32_t id2, bool weight);
 
-    std::set<uint32_t> getInputNodeIds(uint32_t range);
+    std::unordered_set<uint32_t> getInputNodeIds(uint32_t range);
     void reset();
     void setValue(uint32_t id, bool value);
 
     bool getValue(uint32_t id);
 private:
     std::unordered_map<uint32_t, Neuron> neurons;
-    std::set<uint32_t> neuronIds;
+    std::unordered_set<uint32_t> neuronIds;
     uint32_t maxId;
 
 };
