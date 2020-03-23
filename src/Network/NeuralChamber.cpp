@@ -12,7 +12,14 @@ NeuralChamber::~NeuralChamber() {
 
 bool NeuralChamber::getValue(uint32_t id) {
     uint32_t outputId = (this->maxId) - id;
-    return outputId;
+
+    auto got = this->neurons.find(outputId);
+
+    if (got == this->neurons.end()) {
+        return 0;
+    } else {
+        return got->second.getValue(UINT32_MAX);
+    }
 }
 
 std::unordered_set<uint32_t> NeuralChamber::getInputNodeIds(uint32_t range) {
