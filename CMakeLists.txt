@@ -66,6 +66,8 @@ file(GLOB NETWORK_SOURCES
     ${NETWORK_DIR}/NeuralChamber.cpp
     ${NETWORK_DIR}/NeuralLinkContainer.cpp
     ${NETWORK_DIR}/VisualInputer.cpp
+    ${NETWORK_DIR}/AbstractActionMaker.cpp
+    ${NETWORK_DIR}/BreakoutActionMaker.cpp
 )
 include_directories(src/Network)
 

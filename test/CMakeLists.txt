@@ -58,3 +58,10 @@ ${CMAKE_THREAD_LIBS_INIT}
 ${GMOCK_BOTH_LIBRARIES}
 ${OpenCV_LIBS})
 add_test(NAME test_visual_inputer  COMMAND ${CMAKE_SOURCE_DIR}/build/test/test_visual_inputer )
+
+add_executable( test_breakout_action_maker testBreakoutActionMaker.cpp ${NETWORK_SOURCES})
+target_link_libraries( test_breakout_action_maker  
+${GTEST_BOTH_LIBRARIES} 
+${CMAKE_THREAD_LIBS_INIT} 
+${GMOCK_BOTH_LIBRARIES})
+add_test(NAME test_breakout_action_maker  COMMAND ${CMAKE_SOURCE_DIR}/build/test/test_breakout_action_maker )
