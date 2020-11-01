@@ -14,6 +14,7 @@ The length of node id (address), the variable n, are defined by addressing space
 
 Compile
 ---
+
 ```shell
 git clone https://github.com/FlySkyPie/bnn-tools.git
 cd bnn-tools
@@ -25,7 +26,9 @@ make
 
 Usage
 ---
+
 ### Random Generator
+
 To create randomly chromosome.
 Allowed options:
   --help                produce help message
@@ -36,13 +39,22 @@ Allowed options:
 ./generator --address 12 --gene 100 > test_gene
 ```
 
-### Decoder
-To parse gene and convert to Json.
+### 
+
+To parse gene and convert to Json, using stdin:
+
+```shell
+cat test_gene | ./decoder > test_gene.json
+```
+
+or from a file:
+
 ```shell
 ./decoder --input-file test_gene > test_gene.json
 ```
 
 ### Mutator
+
 Creating chromosome of next generaion by mutated source from file.
 Allowed options:
   --help                produce help message
