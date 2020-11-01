@@ -62,5 +62,11 @@ Allowed options:
   --mutated-rate arg    probability of mutate happened.
 
 ```shell
+cat test_gene | ./mutator --mutated-rate 0.1 > test_gene_mutated
+```
+
+or
+
+```shell
 ./mutator --input-file test_gene --mutated-rate 0.1 > test_gene_mutated
 ```
