@@ -16,7 +16,7 @@ Chromosome* readFileToChromosome(string filePath) {
     ifstream file;
     file.open(filePath);
     string chromosomString((istreambuf_iterator<char>(file)),
-            istreambuf_iterator<char>());
+        istreambuf_iterator<char>());
     file.close();
 
     //decode to chromosome from binary string
@@ -24,11 +24,23 @@ Chromosome* readFileToChromosome(string filePath) {
     return stringDecoder.decode(chromosomString);
 }
 
+Chromosome* readStdintToChromosome() {
+    string chromosomString;
+    char c;
+    while (std::cin.get(c))
+    {
+        chromosomString.push_back(c);
+    }
+    //decode to chromosome from binary string
+    StringDecoder stringDecoder;
+    return stringDecoder.decode(chromosomString);
+}
+
 /**
  * Read first 1 byte as addressing length from head of chromosome.
- * 
+ *
  * @param chromosome
- * @return 
+ * @return
  */
 uint8_t readAddressLength(Chromosome* chromosome) {
     uint8_t value = 0;
@@ -46,10 +58,10 @@ int main(int argc, char** argv) {
     // Declare the supported options.
     po::options_description desc("Allowed options");
     desc.add_options()
-            ("help", "produce help message")
-            ("input-file", po::value<string>(), "the chromosome file")
-            ("mutated-rate", po::value<float>(), "probability of mutate happened.")
-            ;
+        ("help", "produce help message")
+        ("input-file", po::value<string>(), "the chromosome file")
+        ("mutated-rate", po::value<float>(), "probability of mutate happened.")
+        ;
 
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -59,10 +71,11 @@ int main(int argc, char** argv) {
         cout << desc << "\n";
         return 1;
     }
-    if (!vm.count("input-file")) {
+
+    /*if (!vm.count("input-file")) {
         cout << "Input file was not set.\n";
         return 1;
-    }
+    }/**/
 
     if (!vm.count("mutated-rate")) {
         cout << "Mutated rate was not set.\n";
@@ -70,23 +83,25 @@ int main(int argc, char** argv) {
     }
 
     try {
-        string filePath = vm["input-file"].as<string>();
-        Chromosome * chromosome = readFileToChromosome(filePath);
+        Chromosome* chromosome;
+        if (vm.count("input-file")) {
+            string filePath = vm["input-file"].as<string>();
+            chromosome = readFileToChromosome(filePath);
+        } else {
+            chromosome = readStdintToChromosome();
+        }
 
         uint8_t addressLength = readAddressLength(chromosome);
         float successRate = (1 - vm["mutated-rate"].as<float>());
-        
-        //cout << "[test]: " << to_string(addressLength) << "\n";
-
         BernoulliJudge mutationJudge(successRate);
         BernoulliJudge extensionJudge(0.5);
         Mutator mutator;
         StringEncoder encoder;
 
         mutator.setAddressLength(addressLength)
-                ->setInverseJudge(&mutationJudge)
-                ->setVaryJudge(&extensionJudge)
-                ->setChromosome(chromosome);
+            ->setInverseJudge(&mutationJudge)
+            ->setVaryJudge(&extensionJudge)
+            ->setChromosome(chromosome);
 
         string result = encoder.encode(mutator.getChild());
         cout << result;
