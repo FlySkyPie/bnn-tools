@@ -25,16 +25,16 @@ int main(int argc, char** argv) {
     po::notify(vm);
 
     if (vm.count("help")) {
-        cout << desc << "\n";
+        std::cerr << desc << "\n";
         return 1;
     }
     if (!vm.count("address")) {
-        cout << "Length of address was not set.\n";
+        std::cerr << "Length of address was not set.\n";
         return 1;
     }
 
     if (!vm.count("gene")) {
-        cout << "Amount of genes was not set.\n";
+        std::cerr << "Amount of genes was not set.\n";
         return 1;
     }
 

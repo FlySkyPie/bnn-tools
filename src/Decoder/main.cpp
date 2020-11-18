@@ -26,15 +26,9 @@ int main(int argc, char **argv)
 
     if (vm.count("help"))
     {
-        cout << desc << "\n";
+        std::cerr << desc << "\n";
         return 1;
     }
-    
-    /*if (!vm.count("input-file"))
-    {
-        cout << "Input file was not set.\n";
-        return 1;
-    }/**/
 
     try
     {
