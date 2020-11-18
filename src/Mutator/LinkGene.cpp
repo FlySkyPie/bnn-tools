@@ -1,25 +1,29 @@
 #include "LinkGene.h"
 #include <iostream> //test
 
-LinkGene::LinkGene(uint8_t addressLength, BernoulliJudge *judge) {
+LinkGene::LinkGene(uint8_t addressLength, BernoulliJudge* judge) {
     this->addressLength = addressLength;
     this->judge = judge;
+    this->node1Genes = nullptr;
+    this->node2Genes = nullptr;
 }
 
 LinkGene::~LinkGene() {
-    delete this->node1Genes;
-    delete this->node2Genes;
+    if (this->node1Genes != nullptr) {
+        delete this->node1Genes;
+    }
+    if (this->node2Genes != nullptr) {
+        delete this->node2Genes;
+    }
 }
 
 bool LinkGene::loadGenes(Chromosome* chromosome) {
     if (!this->loadNode1Genes(chromosome)) {
         return 0;
     }
-
     if (!this->loadNode2Genes(chromosome)) {
         return 0;
     }
-
     if (!this->loadWeight(chromosome)) {
         return 0;
     }
@@ -28,31 +32,31 @@ bool LinkGene::loadGenes(Chromosome* chromosome) {
 }
 
 Chromosome* LinkGene::getMutatedNormal() {
-    Chromosome *source = this->getNormal();
-    Chromosome *target = this->getMutated(source);
+    Chromosome* source = this->getNormal();
+    Chromosome* target = this->getMutated(source);
 
     delete source;
     return target;
 }
 
 Chromosome* LinkGene::getMutatedShrinked() {
-    Chromosome *source = this->getShrinked();
-    Chromosome *target = this->getMutated(source);
+    Chromosome* source = this->getShrinked();
+    Chromosome* target = this->getMutated(source);
 
     delete source;
     return target;
 }
 
 Chromosome* LinkGene::getMutatedExtended() {
-    Chromosome *source = this->getExtended();
-    Chromosome *target = this->getMutated(source);
+    Chromosome* source = this->getExtended();
+    Chromosome* target = this->getMutated(source);
 
     delete source;
     return target;
 }
 
-void LinkGene::transcribeMutated(BernoulliJudge *judge,
-        Chromosome* source, Chromosome* target) {
+void LinkGene::transcribeMutated(BernoulliJudge* judge,
+    Chromosome* source, Chromosome* target) {
     bool gene;
     source->getGene(gene);
     gene = judge->getRandom() ? gene : ~gene;
@@ -63,7 +67,7 @@ bool LinkGene::loadNode1Genes(Chromosome* chromosome) {
     this->node1Genes = new Chromosome;
 
     bool gene;
-    for (uint32_t i = 0; i<this->addressLength; i++) {
+    for (uint32_t i = 0; i < this->addressLength; i++) {
         if (!chromosome->getGene(gene)) {
             return 0;
         }
@@ -77,7 +81,7 @@ bool LinkGene::loadNode2Genes(Chromosome* chromosome) {
     this->node2Genes = new Chromosome;
 
     bool gene;
-    for (uint32_t i = 0; i<this->addressLength; i++) {
+    for (uint32_t i = 0; i < this->addressLength; i++) {
         if (!chromosome->getGene(gene)) {
             return 0;
         }
@@ -126,8 +130,8 @@ Chromosome* LinkGene::getNormal() {
 
 /**
  * Remove 50% of node which addressing at middle.
- * 
- * @return 
+ *
+ * @return
  */
 Chromosome* LinkGene::getShrinked() {
     if (this->addressLength <= 1) {

@@ -68,7 +68,7 @@ int main(int argc, char** argv) {
     po::notify(vm);
 
     if (vm.count("help")) {
-        cout << desc << "\n";
+        std::cerr << desc << "\n";
         return 1;
     }
 
@@ -78,7 +78,7 @@ int main(int argc, char** argv) {
     }/**/
 
     if (!vm.count("mutated-rate")) {
-        cout << "Mutated rate was not set.\n";
+        std::cerr << "Mutated rate was not set.\n";
         return 1;
     }
 
@@ -93,6 +93,7 @@ int main(int argc, char** argv) {
 
         uint8_t addressLength = readAddressLength(chromosome);
         float successRate = (1 - vm["mutated-rate"].as<float>());
+
         BernoulliJudge mutationJudge(successRate);
         BernoulliJudge extensionJudge(0.5);
         Mutator mutator;
