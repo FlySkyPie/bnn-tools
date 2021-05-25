@@ -26,6 +26,13 @@ file(GLOB UTIL_SOURCES
 )
 include_directories(src/Util)
 
+# Miner
+set(MINER_DIR ${CMAKE_SOURCE_DIR}/src/Miner)
+include_directories(src/Miner)
+
+add_executable(miner ${MINER_DIR}/main.cpp )
+target_link_libraries( miner LINK_PUBLIC ${Boost_LIBRARIES} )
+
 # mutator stuff
 set(MUTATOR_DIR ${CMAKE_SOURCE_DIR}/src/Mutator)
 set(MUTATOR_SOURCES
