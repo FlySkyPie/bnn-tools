@@ -36,12 +36,24 @@ target_link_libraries( miner LINK_PUBLIC ${Boost_LIBRARIES} )
 
 # Encoder
 set(ENCODER_DIR ${CMAKE_SOURCE_DIR}/src/Encoder)
-
+file(GLOB ENCODER_SOURCES
+    ${ENCODER_DIR}/EncoderBuffer.cpp
+)
 include_directories(src/Encoder)
 
-add_executable( encoder ${ENCODER_DIR}/main.cpp )
+add_executable( encoder ${ENCODER_DIR}/main.cpp ${ENCODER_SOURCES})
 target_link_libraries( encoder LINK_PUBLIC ${Boost_LIBRARIES} )
 
+# Decoder stuff
+# @deprecated
+set(DECODER_DIR ${CMAKE_SOURCE_DIR}/src/Decoder)
+file(GLOB DECODER_SOURCES
+    ${DECODER_DIR}/Decoder.cpp
+)
+include_directories(src/Decoder)
+
+add_executable( decoder ${DECODER_DIR}/main.cpp ${DECODER_SOURCES} ${UTIL_SOURCES})
+target_link_libraries( decoder LINK_PUBLIC ${Boost_LIBRARIES} )
 
 # mutator stuff
 set(MUTATOR_DIR ${CMAKE_SOURCE_DIR}/src/Mutator)
@@ -57,6 +69,7 @@ add_executable(mutator ${MUTATOR_DIR}/main.cpp ${UTIL_SOURCES} ${MUTATOR_SOURCES
 target_link_libraries( mutator LINK_PUBLIC ${Boost_LIBRARIES} )
 
 # random generator stuff
+# @deprecated
 set(GEMERATOR_DIR ${CMAKE_SOURCE_DIR}/src/RandomGenerator)
 file(GLOB RANDOM_GENERATOR_SOURCES
     ${GEMERATOR_DIR}/Generator.cpp
@@ -81,6 +94,6 @@ include_directories(src/Network)
 
 
 # GTest stuff
-enable_testing()
-add_subdirectory(test)
+#enable_testing()
+#add_subdirectory(test)
 

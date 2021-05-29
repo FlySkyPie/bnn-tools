@@ -7,17 +7,11 @@
 #include "rapidjson/document.h"
 #include <stdexcept>
 
+#include "EncoderBuffer.h"
+
 using namespace rapidjson;
 using namespace std;
 namespace po = boost::program_options;
-
-struct LinkGene
-{
-    uint32_t from;
-    uint32_t to;
-    bool weight;
-};
-
 
 unsigned char parseHeader(string headerLine) {
     Document document;
@@ -53,7 +47,17 @@ unsigned char parseHeader(string headerLine) {
     return scale;
 }
 
+LinkDescriptor parseLink(string line) {
+    Document document;
+    document.Parse(line.c_str());
 
+    LinkDescriptor link = {
+       static_cast<uint32_t>(document["from"].GetInt()),
+       static_cast<uint32_t>(document["to"].GetInt()),
+       document["weight"].GetInt() != 0,
+    };
+    return link;
+}
 
 /**
  * To randomly generate chromosome as original species.
@@ -61,22 +65,24 @@ unsigned char parseHeader(string headerLine) {
 int main(int argc, char** argv)
 {
     string line;
-    
+
     //read header
     getline(cin, line);
     unsigned char scale = parseHeader(line);
+    cout << scale;
 
-
+    EncoderBuffer buffer(scale);
 
     while (getline(cin, line))
     {
-        Document document;
-        document.Parse(line.c_str());
-
-
-        // process pair (a,b)
+        LinkDescriptor link = parseLink(line);
+        if (buffer.addLink(link)) {
+            cout << buffer.dump();
+        }
     }
 
-
+    if (!buffer.isEmpty()) {
+        cout << buffer.dump();
+    }
     return 0;
 }
