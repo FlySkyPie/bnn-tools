@@ -15,6 +15,7 @@ include_directories(${GTEST_INCLUDE_DIRS})
 find_package(nlohmann_json 3.2.0 REQUIRED)
 find_package(Threads REQUIRED)
 find_package( OpenCV REQUIRED )
+find_package(Rapidjson REQUIRED ) 
 
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_C_COMPILER clang)
@@ -32,6 +33,15 @@ include_directories(src/Miner)
 
 add_executable(miner ${MINER_DIR}/main.cpp )
 target_link_libraries( miner LINK_PUBLIC ${Boost_LIBRARIES} )
+
+# Encoder
+set(ENCODER_DIR ${CMAKE_SOURCE_DIR}/src/Encoder)
+
+include_directories(src/Encoder)
+
+add_executable( encoder ${ENCODER_DIR}/main.cpp )
+target_link_libraries( encoder LINK_PUBLIC ${Boost_LIBRARIES} )
+
 
 # mutator stuff
 set(MUTATOR_DIR ${CMAKE_SOURCE_DIR}/src/Mutator)
@@ -56,15 +66,6 @@ include_directories(src/RandomGenerator)
 add_executable(generator ${GEMERATOR_DIR}/main.cpp ${RANDOM_GENERATOR_SOURCES} ${UTIL_SOURCES})
 target_link_libraries( generator LINK_PUBLIC ${Boost_LIBRARIES} )
 
-# Decoder stuff
-set(DECODER_DIR ${CMAKE_SOURCE_DIR}/src/Decoder)
-file(GLOB DECODER_SOURCES
-    ${DECODER_DIR}/Decoder.cpp
-)
-include_directories(src/Decoder)
-
-add_executable( decoder ${DECODER_DIR}/main.cpp ${DECODER_SOURCES} ${UTIL_SOURCES})
-target_link_libraries( decoder LINK_PUBLIC ${Boost_LIBRARIES} )
 
 # Network stuff
 set(NETWORK_DIR ${CMAKE_SOURCE_DIR}/src/Network)
