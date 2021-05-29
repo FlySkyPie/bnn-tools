@@ -24,8 +24,19 @@ cmake ..
 make
 ```
 
-Usage
----
+## Usage
+
+### Miner
+
+To create randomly chromosome.
+Allowed options:
+  --help                produce help message
+  --scale arg           length of addressing space
+  --size arg            how many genes will generated
+
+```shell
+cat /dev/urandom | ./miner -- scale 13 --size 1000 > chromosome.jsonl
+```
 
 ### Random Generator
 
