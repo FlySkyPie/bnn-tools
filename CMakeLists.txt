@@ -51,6 +51,16 @@ include_directories(src/Decoder)
 add_executable( decoder ${DECODER_DIR}/main.cpp )
 target_link_libraries( decoder LINK_PUBLIC ${Boost_LIBRARIES} )
 
+# GeneMutator
+set(GENEMUTATOR_DIR ${CMAKE_SOURCE_DIR}/src/GeneMutator)
+set(GENEMUTATOR_DIR_SOURCES
+    ${GENEMUTATOR_DIR}/GeneMutator.cpp
+)
+include_directories(src/Mutator)
+
+add_executable(gene-mutator ${GENEMUTATOR_DIR}/main.cpp ${GENEMUTATOR_DIR_SOURCES} )
+target_link_libraries( gene-mutator LINK_PUBLIC ${Boost_LIBRARIES} )
+
 # mutator stuff
 set(MUTATOR_DIR ${CMAKE_SOURCE_DIR}/src/Mutator)
 set(MUTATOR_SOURCES
