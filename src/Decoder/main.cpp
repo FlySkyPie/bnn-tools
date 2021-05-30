@@ -4,68 +4,69 @@
 #include <streambuf>
 #include <boost/program_options.hpp>
 
-#include "Chromosome.h"
-#include "Decoder.h"
-#include "StringDecoder.h"
-
 using namespace std;
 namespace po = boost::program_options;
+typedef unsigned char uchar;
+
+string createHeader(uint32_t geneScale) {
+    stringstream ss;
+    ss << "{\"type\":\"head\""
+        << ",\"scale\":" << geneScale << "}\n";
+    return ss.str();
+}
+
+uint32_t parseLink(uchar* array, uint32_t size) {
+    uint32_t value = 0x0000;
+    for (int i = 0;i < size;i++) {
+        value += ((uint32_t)array[i]) << (8 * i);
+    }
+    return value;
+}
+
+string createGeneJsonl(uchar* node1, uchar* node2, bool weight, uint32_t size) {
+    string gene;
+    stringstream ss;
+    ss << "{\"type\":\"link\""
+        << ",\"from\":" << parseLink(node1, size)
+        << ",\"to\":" << parseLink(node2, size)
+        << ",\"weight\":" << (weight ? "1" : "0") << "}\n";
+    return ss.str();
+}
 
 /**
- * To randomly generate chromosome as original species.
+ * Decode binary chromosome to jsonl
  */
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
-    // Declare the supported options.
-    po::options_description desc("Allowed options");
-    desc.add_options()("help", "produce help message")("input-file", po::value<string>(), "the chromosome file");
+    uint32_t scale = static_cast<uchar>(cin.get());
+    cout << createHeader(scale);
 
-    po::variables_map vm;
-    po::store(po::parse_command_line(argc, argv, desc), vm);
-    po::notify(vm);
+    uint32_t size = (scale / 8) + ((scale % 8) ? 1 : 0);
 
-    if (vm.count("help"))
-    {
-        std::cerr << desc << "\n";
-        return 1;
-    }
+    while (1) {
+        uchar weightBuffer = static_cast<uchar>(cin.get());
+        for (int i = 0;i < 8;i++) {
+            bool weight = (weightBuffer >> (7 - i)) & 0x01;
 
-    try
-    {
-        string chromosomString;
-        if (vm.count("input-file"))
-        {
-            //read file
-            string filePath = vm["input-file"].as<string>();
-            ifstream file;
-            file.open(filePath);
-            string chromosomString((istreambuf_iterator<char>(file)),
-                                   istreambuf_iterator<char>());
-            file.close();
-        }
-        else
-        {
-            char c;
-            while (std::cin.get(c))
-            {
-                chromosomString.push_back(c);
+            uchar* node1 = new uchar[size];
+            for (int j = 0;j < size;j++) {
+                node1[size - 1 - j] = static_cast<uchar>(cin.get());
             }
+            uchar* node2 = new uchar[size];
+            for (int j = 0;j < size;j++) {
+                node2[size - 1 - j] = static_cast<uchar>(cin.get());
+            }
+
+            if (cin.eof()) {
+                break;
+            }
+            cout << createGeneJsonl(node1, node2, weight, size);
+            delete[] node1;
+            delete[] node2;
         }
-
-        //decode to chromosome from string
-        StringDecoder stringDecoder;
-        Decoder decoder;
-        Chromosome *chromosome = stringDecoder.decode(chromosomString);
-
-        //decode to json from chromosome
-        string result = decoder.convertToJson(chromosome);
-        cout << result;
-        delete chromosome;
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << e.what() << std::endl;
-        return 1;
+        if (cin.eof()) {
+            break;
+        }
     }
 
     return 0;

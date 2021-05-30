@@ -45,14 +45,10 @@ add_executable( encoder ${ENCODER_DIR}/main.cpp ${ENCODER_SOURCES})
 target_link_libraries( encoder LINK_PUBLIC ${Boost_LIBRARIES} )
 
 # Decoder stuff
-# @deprecated
 set(DECODER_DIR ${CMAKE_SOURCE_DIR}/src/Decoder)
-file(GLOB DECODER_SOURCES
-    ${DECODER_DIR}/Decoder.cpp
-)
 include_directories(src/Decoder)
 
-add_executable( decoder ${DECODER_DIR}/main.cpp ${DECODER_SOURCES} ${UTIL_SOURCES})
+add_executable( decoder ${DECODER_DIR}/main.cpp )
 target_link_libraries( decoder LINK_PUBLIC ${Boost_LIBRARIES} )
 
 # mutator stuff

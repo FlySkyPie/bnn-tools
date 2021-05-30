@@ -51,5 +51,6 @@ std::string EncoderBuffer::coverInt2String(uint32_t value, uint32_t size) {
     }
     std::string string(array, size);
     std::reverse(string.begin(), string.end());
+    delete[] array;
     return string;
 }

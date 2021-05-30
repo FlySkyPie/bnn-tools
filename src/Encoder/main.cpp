@@ -60,7 +60,7 @@ LinkDescriptor parseLink(string line) {
 }
 
 /**
- * To randomly generate chromosome as original species.
+ * Encode jsonl to binary string.
  */
 int main(int argc, char** argv)
 {
