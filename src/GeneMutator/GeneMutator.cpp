@@ -1,6 +1,7 @@
-#include <sstream>  //stringstream
-#include <rapidjson/document.h>
+#include <sstream>      //stringstream
 #include <algorithm>    //reverse
+#include <bitset>       // std::bitset
+#include <rapidjson/document.h>
 
 #include "GeneMutator.h"
 
@@ -23,7 +24,7 @@ LinkDescriptor parseLinkJsonl(string line) {
 uchar* covertInt2CharArray(uint32_t value, uint32_t size) {
     uchar* array = new uchar[size];
     for (int i = 0;i < size;i++) {
-        array[size - 1 - i] = (value >> (8 * i)) & 0xff;
+        array[i] = (value >> (8 * i)) & 0xff;
     }
 
     return array;
@@ -68,7 +69,7 @@ string GeneMutator::mutateGeneJsonl(string line) {
     LinkDescriptor descriptor = parseLinkJsonl(line);
 
     uint32_t from = this->mutateValue(descriptor.from);
-    uint32_t to = this->mutateValue(descriptor.from);
+    uint32_t to = this->mutateValue(descriptor.to);
     bool weight = descriptor.weight ^ this->rand();
 
     stringstream ss;
