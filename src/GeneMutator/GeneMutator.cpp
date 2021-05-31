@@ -1,6 +1,7 @@
 #include <sstream>      //stringstream
 #include <algorithm>    //reverse
 #include <bitset>       // std::bitset
+#include <iostream>     //cerr for test
 #include <rapidjson/document.h>
 
 #include "GeneMutator.h"
@@ -84,14 +85,14 @@ uchar* GeneMutator::createRandMask() {
     uchar* mask = new uchar[size];
     for (int i = 0;i < size;i++) {
         mask[i] =
-            (0x01 & this->rand()) |
-            (0x02 & this->rand()) |
-            (0x04 & this->rand()) |
-            (0x08 & this->rand()) |
-            (0x10 & this->rand()) |
-            (0x20 & this->rand()) |
-            (0x40 & this->rand()) |
-            (0x80 & this->rand());
+            (this->rand() ? 0x01 : 0x00) |
+            (this->rand() ? 0x02 : 0x00) |
+            (this->rand() ? 0x04 : 0x00) |
+            (this->rand() ? 0x08 : 0x00) |
+            (this->rand() ? 0x10 : 0x00) |
+            (this->rand() ? 0x20 : 0x00) |
+            (this->rand() ? 0x40 : 0x00) |
+            (this->rand() ? 0x80 : 0x00);
     }
     return mask;
 }
